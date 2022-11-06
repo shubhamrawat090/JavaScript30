@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Drum Kit JS</title>
+  </head>
+  <body>
+    <div class="heading">
+      <h1>DRUM-KIT JAVASCRIPT 🥁</h1>
+      <p>Press the following keys on your keyboard to play with the drum-kit</p>
+    </div>
+    <div class="keys">
+      <div data-key="65" class="key_card">
+        <kbd class="key">A</kbd>
+        <span class="sound">CLAP</span>
+      </div>
+
+      <div data-key="83" class="key_card">
+        <kbd class="key">S</kbd>
+        <span class="sound">HIHAT</span>
+      </div>
+
+      <div data-key="68" class="key_card">
+        <kbd class="key">D</kbd>
+        <span class="sound">KICK</span>
+      </div>
+
+      <div data-key="70" class="key_card">
+        <kbd class="key">F</kbd>
+        <span class="sound">OPENHAT</span>
+      </div>
+
+      <div data-key="71" class="key_card">
+        <kbd class="key">G</kbd>
+        <span class="sound">BOOM</span>
+      </div>
+
+      <div data-key="72" class="key_card">
+        <kbd class="key">H</kbd>
+        <span class="sound">RIDE</span>
+      </div>
+
+      <div data-key="74" class="key_card">
+        <kbd class="key">J</kbd>
+        <span class="sound">SNARE</span>
+      </div>
+
+      <div data-key="75" class="key_card">
+        <kbd class="key">K</kbd>
+        <span class="sound">TOM</span>
+      </div>
+
+      <div data-key="76" class="key_card">
+        <kbd class="key">L</kbd>
+        <span class="sound">TINK</span>
+      </div>
+    </div>
+
+    <audio data-key="65" src="sounds/clap.wav"></audio>
+    <audio data-key="83" src="sounds/hihat.wav"></audio>
+    <audio data-key="68" src="sounds/kick.wav"></audio>
+    <audio data-key="70" src="sounds/openhat.wav"></audio>
+    <audio data-key="71" src="sounds/boom.wav"></audio>
+    <audio data-key="72" src="sounds/ride.wav"></audio>
+    <audio data-key="74" src="sounds/snare.wav"></audio>
+    <audio data-key="75" src="sounds/tom.wav"></audio>
+    <audio data-key="76" src="sounds/tink.wav"></audio>
+  </body>
+
+  <script>
+    function removeTransition(e) {
+      // NOTE: even though you used the shorthand in css 'background', you will refer to it as 'background-color' in JS because you only changed the color
+      if (e.propertyName !== "background-color") return;
+      e.target.classList.remove("playing");
+    }
+
+    function playSound(e) {
+      // html element
+      let key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+      // audio element
+      let audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+
+      // proceed only if the mentioned key is pressed
+      if (!audio) {
+        return;
+      }
+
+      // reset the audio when key is pressed again
+      audio.currentTime = 0;
+      // play the audio file corresponding to it
+      audio.play();
+      // show the playing key different from others
+      key.classList.add("playing");
+    }
+
+    const allKeys = Array.from(document.querySelectorAll(".key_card"));
+    allKeys.forEach((key) => {
+      key.addEventListener("transitionend", removeTransition);
+    });
+
+    // run the playSound(), as soon as a key is pressed
+    window.addEventListener("keydown", playSound);
+  </script>
+</html>
